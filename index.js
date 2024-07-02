@@ -23,11 +23,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const userRoutes = require('./users/users_routes');
 const patientRoutes = require('./patients/patients_routes');
 const doctorRoutes = require('./doctors/doctors_routes');
+const appointmentsRoutes = require('./appointments/appointments_routes')
 
 // Aplicar rutas al app
 userRoutes(router);
 patientRoutes(router);
 doctorRoutes(router);
+appointmentsRoutes(router);
 
 app.use('/api', router);
 
