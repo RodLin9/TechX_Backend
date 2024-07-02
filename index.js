@@ -22,12 +22,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Definición de rutas
 const userRoutes = require('./users/users_routes');
 const patientRoutes = require('./patients/patients_routes');
-//const alternativeRoutes = require('./alternatives/alternative_routes');
+const doctorRoutes = require('./doctors/doctors_routes');
 
 // Aplicar rutas al app
 userRoutes(router);
 patientRoutes(router);
-//alternativeRoutes(router);
+doctorRoutes(router);
 
 app.use('/api', router);
 
