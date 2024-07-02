@@ -5,12 +5,6 @@ const Schema = mongoose.Schema;
 // Schema in student for model
 
 const userSchema = new Schema({
-    /*id_user:{
-        type: Number,
-        required: true,
-        trim: true, //Quita espacios
-        unique: true
-    },*/
     user_name:{
         type: String,
         required: true,
@@ -22,12 +16,6 @@ const userSchema = new Schema({
         trim: true,
         unique: false
     },
-    /*user_nickname:{
-        type: String,
-        required: true,
-        trim: true,
-        unique: true
-    },*/
     user_password:{
         type: String,
         required: true,
@@ -38,6 +26,11 @@ const userSchema = new Schema({
         required: true,
         trim: true,
         unique: true
+    },
+    role: {
+      type: String,
+      enum: ['patient', 'doctor'],
+      required: true
     },
 },{timestamps: true});
 

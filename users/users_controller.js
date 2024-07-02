@@ -2,14 +2,14 @@ const User = require('./users_dao');
 
 // Crear un nuevo usuario
 exports.createUser = async (req, res, next) => {
-  const { user_name, user_lastname, user_password, user_email } = req.body;
+  const { user_name, user_lastname, user_password, user_email, role } = req.body;
 
   // Verificar si ya existe un usuario con el mismo correo electrónico
   const existingUser = await User.findOne({ user_email });
 
   if (existingUser) {
     // Si el usuario ya existe, envía un mensaje de error
-    return res.status(409).send({ message: 'El usuario ya existe.' });
+    return res.status(409).send({ message: 'El usuario ya está registrado.' });
   }
 
   const newUser = {
@@ -17,16 +17,15 @@ exports.createUser = async (req, res, next) => {
     user_lastname,
     user_password,
     user_email,
+    role
   };
 
   try {
     // Intenta crear el nuevo usuario en la base de datos
     const user = await User.create(newUser);
 
-    // Si se crea exitosamente, envía una respuesta de éxito
     res.status(201).send({ message: 'Usuario creado exitosamente', user });
   } catch (err) {
-    // Manejo de otros errores
     console.error('Error al crear el usuario:', err);
     res.status(500).send('Error interno del servidor');
   }
@@ -97,6 +96,7 @@ exports.updateUser = async (req, res) => {
     user_name: req.body.user_name,
     user_lastname: req.body.user_lastname,
     user_password: req.body.user_password,
+    role: req.body.role // Incluir el campo role en la actualización
   };
 
   try {
@@ -126,5 +126,22 @@ exports.deleteUser = async (req, res) => {
     res.json({ Estado: 'Usuario Eliminado' });
   } catch (err) {
     res.status(500).send({ message: 'Error del Servidor' });
+  }
+};
+
+//Obtener usuario por role
+exports.getUsersByRole = async (req, res, next) => {
+  const userRole = req.params.role;
+
+  try {
+    const users = await User.find({ role: userRole });
+
+    if (!users || users.length === 0) {
+      return res.status(409).send({ message: `No users found with role ${userRole}` });
+    } else {
+      res.send(users);
+    }
+  } catch (err) {
+    return res.status(500).send('Error del Servidor');
   }
 };
