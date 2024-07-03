@@ -24,12 +24,14 @@ const userRoutes = require('./users/users_routes');
 const patientRoutes = require('./patients/patients_routes');
 const doctorRoutes = require('./doctors/doctors_routes');
 const appointmentsRoutes = require('./appointments/appointments_routes')
+const medicationReminderRoutes = require('./medication/medication_reminders_routes');
 
 // Aplicar rutas al app
 userRoutes(router);
 patientRoutes(router);
 doctorRoutes(router);
 appointmentsRoutes(router);
+medicationReminderRoutes(router);
 
 app.use('/api', router);
 
