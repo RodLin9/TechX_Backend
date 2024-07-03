@@ -43,14 +43,13 @@ exports.loginUser = async (req, res, next) => {
 
     if (!user) {
       return res.status(401).send({ message: 'Error al iniciar sesión: Usuario no encontrado' });
+    }
+
+    if (userData.user_password === user.user_password) {
+      console.log('Sesión iniciada correctamente'); // Mensaje por consola
+      res.send({ user: { email: user.user_email, role: user.role } });
     } else {
-      const resultPassword = userData.user_password;
-      if (resultPassword == user.user_password) {
-        console.log('Sesión iniciada correctamente'); // Mensaje por consola
-        res.send({ user });
-      } else {
-        return res.status(401).send({ message: 'Error al iniciar sesión: Contraseña incorrecta' });
-      }
+      return res.status(401).send({ message: 'Error al iniciar sesión: Contraseña incorrecta' });
     }
   } catch (err) {
     return res.status(500).send('Server Error');
